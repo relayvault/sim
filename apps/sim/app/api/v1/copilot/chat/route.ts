@@ -20,7 +20,11 @@ const RequestSchema = z.object({
   mode: z.enum(COPILOT_REQUEST_MODES).optional().default('agent'),
   model: z.string().optional(),
   autoExecuteTools: z.boolean().optional().default(true),
-  timeout: z.number().max(790_000).optional().default(790_000),
+  timeout: z
+    .number()
+    .optional()
+    .default(790_000)
+    .transform((v) => Math.min(v, 790_000)),
 })
 
 /**
