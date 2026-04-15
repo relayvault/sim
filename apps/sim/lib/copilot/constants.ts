@@ -14,11 +14,11 @@ export const SIM_AGENT_API_URL =
 // Timeouts
 // ---------------------------------------------------------------------------
 
-/** Default timeout for the copilot orchestration stream loop (60 min). */
-export const ORCHESTRATION_TIMEOUT_MS = 3_600_000
+/** Default timeout for the copilot orchestration stream loop (790s, within Vercel Pro 800s limit). */
+export const ORCHESTRATION_TIMEOUT_MS = 790_000
 
-/** Timeout for the client-side streaming response handler (60 min). */
-export const STREAM_TIMEOUT_MS = 3_600_000
+/** Timeout for the client-side streaming response handler (790s, within Vercel Pro 800s limit). */
+export const STREAM_TIMEOUT_MS = 790_000
 
 // ---------------------------------------------------------------------------
 // Stream resume

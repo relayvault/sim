@@ -20,7 +20,7 @@ export const maxDuration = 800
 
 const logger = createLogger('CopilotChatStreamAPI')
 const POLL_INTERVAL_MS = 250
-const MAX_STREAM_MS = 60 * 60 * 1000
+const MAX_STREAM_MS = 790_000
 
 function isTerminalStatus(
   status: string | null | undefined
