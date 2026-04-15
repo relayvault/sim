@@ -15,21 +15,54 @@ function normalizeBaseUrl(url: string): string {
 }
 
 /**
- * Returns the base URL of the application from NEXT_PUBLIC_APP_URL
- * This ensures webhooks, callbacks, and other integrations always use the correct public URL
+ * Returns the Vercel deployment URL when running on Vercel.
+ * `VERCEL_URL` is automatically injected by Vercel on every deployment (without protocol).
+ */
+function getVercelDeploymentUrl(): string | undefined {
+  const vercelUrl = process.env.VERCEL_URL
+  if (vercelUrl) {
+    return `https://${vercelUrl}`
+  }
+  return undefined
+}
+
+/**
+ * Returns the base URL of the application.
+ *
+ * Resolution order:
+ * 1. Client-side: `window.location.origin` (avoids CORS on Vercel preview deployments)
+ * 2. Server-side Vercel preview: `VERCEL_URL` (deployment-specific URL)
+ * 3. `NEXT_PUBLIC_APP_URL` (explicit configuration)
+ * 4. Server-side Vercel (any env): `VERCEL_URL` as final fallback
+ *
  * @returns The base URL string (e.g., 'http://localhost:3000' or 'https://example.com')
- * @throws Error if NEXT_PUBLIC_APP_URL is not configured
+ * @throws Error if no URL can be resolved
  */
 export function getBaseUrl(): string {
-  const baseUrl = getEnv('NEXT_PUBLIC_APP_URL')?.trim()
-
-  if (!baseUrl) {
-    throw new Error(
-      'NEXT_PUBLIC_APP_URL must be configured for webhooks and callbacks to work correctly'
-    )
+  if (typeof window !== 'undefined') {
+    return window.location.origin
   }
 
-  return normalizeBaseUrl(baseUrl)
+  if (process.env.VERCEL_ENV === 'preview') {
+    const vercelUrl = getVercelDeploymentUrl()
+    if (vercelUrl) {
+      return vercelUrl
+    }
+  }
+
+  const baseUrl = getEnv('NEXT_PUBLIC_APP_URL')?.trim()
+  if (baseUrl) {
+    return normalizeBaseUrl(baseUrl)
+  }
+
+  const vercelFallback = getVercelDeploymentUrl()
+  if (vercelFallback) {
+    return vercelFallback
+  }
+
+  throw new Error(
+    'NEXT_PUBLIC_APP_URL must be configured for webhooks and callbacks to work correctly'
+  )
 }
 
 /**
