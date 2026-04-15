@@ -12,7 +12,7 @@ import {
   getUserEntityPermissions,
 } from '@/lib/workspaces/permissions/utils'
 
-export const maxDuration = 3600
+export const maxDuration = 800
 
 const logger = createLogger('MothershipExecuteAPI')
 

@@ -16,7 +16,7 @@ import {
 } from '@/lib/copilot/request/session'
 import { toStreamBatchEvent } from '@/lib/copilot/request/session/types'
 
-export const maxDuration = 3600
+export const maxDuration = 800
 
 const logger = createLogger('CopilotChatStreamAPI')
 const POLL_INTERVAL_MS = 250

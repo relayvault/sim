@@ -7,7 +7,7 @@ import { generateId } from '@/lib/core/utils/uuid'
 import { getWorkflowById, resolveWorkflowIdForUser } from '@/lib/workflows/utils'
 import { authenticateV1Request } from '@/app/api/v1/auth'
 
-export const maxDuration = 3600
+export const maxDuration = 800
 
 const logger = createLogger('CopilotHeadlessAPI')
 const DEFAULT_COPILOT_MODEL = 'claude-opus-4-6'

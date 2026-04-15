@@ -38,7 +38,7 @@ const DEFAULT_COPILOT_MODEL = 'claude-opus-4-6'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
-export const maxDuration = 3600
+export const maxDuration = 800
 
 interface CopilotKeyAuthResult {
   success: boolean
