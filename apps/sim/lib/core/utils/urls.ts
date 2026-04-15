@@ -31,9 +31,8 @@ function getVercelDeploymentUrl(): string | undefined {
  *
  * Resolution order:
  * 1. Client-side: `window.location.origin` (avoids CORS on Vercel preview deployments)
- * 2. Server-side Vercel preview: `VERCEL_URL` (deployment-specific URL)
- * 3. `NEXT_PUBLIC_APP_URL` (explicit configuration)
- * 4. Server-side Vercel (any env): `VERCEL_URL` as final fallback
+ * 2. `NEXT_PUBLIC_APP_URL` (explicit configuration — always takes precedence server-side)
+ * 3. Server-side Vercel (any env): `VERCEL_URL` as fallback when no explicit URL is configured
  *
  * @returns The base URL string (e.g., 'http://localhost:3000' or 'https://example.com')
  * @throws Error if no URL can be resolved
@@ -41,13 +40,6 @@ function getVercelDeploymentUrl(): string | undefined {
 export function getBaseUrl(): string {
   if (typeof window !== 'undefined') {
     return window.location.origin
-  }
-
-  if (process.env.VERCEL_ENV === 'preview') {
-    const vercelUrl = getVercelDeploymentUrl()
-    if (vercelUrl) {
-      return vercelUrl
-    }
   }
 
   const baseUrl = getEnv('NEXT_PUBLIC_APP_URL')?.trim()
