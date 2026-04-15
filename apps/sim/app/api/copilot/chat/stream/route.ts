@@ -16,11 +16,11 @@ import {
 } from '@/lib/copilot/request/session'
 import { toStreamBatchEvent } from '@/lib/copilot/request/session/types'
 
-export const maxDuration = 3600
+export const maxDuration = 800
 
 const logger = createLogger('CopilotChatStreamAPI')
 const POLL_INTERVAL_MS = 250
-const MAX_STREAM_MS = 60 * 60 * 1000
+const MAX_STREAM_MS = 790_000
 
 function isTerminalStatus(
   status: string | null | undefined

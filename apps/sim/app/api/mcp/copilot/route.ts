@@ -38,7 +38,7 @@ const DEFAULT_COPILOT_MODEL = 'claude-opus-4-6'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
-export const maxDuration = 3600
+export const maxDuration = 800
 
 interface CopilotKeyAuthResult {
   success: boolean
@@ -514,9 +514,10 @@ async function handleMcpRequestWithSdk(
     await transport.handleRequest(requestAdapter as any, responseCapture as any, parsedBody)
     await responseCapture.waitForHeaders()
     // Must exceed the longest possible tool execution.
-    // Using ORCHESTRATION_TIMEOUT_MS + 60 s buffer so the orchestrator can
-    // finish or time-out on its own before the transport is torn down.
-    await responseCapture.waitForEnd(ORCHESTRATION_TIMEOUT_MS + 60_000)
+    // Using ORCHESTRATION_TIMEOUT_MS + 5 s buffer so the orchestrator can
+    // finish or time-out on its own before the transport is torn down,
+    // while staying within the platform's maxDuration (800s).
+    await responseCapture.waitForEnd(ORCHESTRATION_TIMEOUT_MS + 5_000)
     return responseCapture.toNextResponse()
   } finally {
     await server.close().catch(() => {})

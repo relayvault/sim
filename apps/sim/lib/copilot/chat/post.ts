@@ -38,7 +38,7 @@ import { getWorkflowById, resolveWorkflowIdForUser } from '@/lib/workflows/utils
 import { getUserEntityPermissions } from '@/lib/workspaces/permissions/utils'
 import type { ChatContext } from '@/stores/panel'
 
-export const maxDuration = 3600
+export const maxDuration = 800
 
 const logger = createLogger('UnifiedChatAPI')
 const DEFAULT_MODEL = 'claude-opus-4-6'
